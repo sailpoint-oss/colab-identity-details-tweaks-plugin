@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE Plugin PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Plugin certificationLevel="None" displayName="Identity Details Tweaks" minSystemVersion="8.0" name="IdentityDetailsTweaks" version="1.0">
+  <Attributes>
+    <Map>
+      <entry key="minUpgradableVersion" value="0.1" />
+      <entry key="restResources">
+       <value>
+         <List>
+           <String>dev.shandeep.identitydetailstweaksplugin.GetConfiguration</String>
+          </List>
+       </value>
+     </entry>
+      <entry key="settings">
+       <value>
+         <List>
+         <Setting dataType="string" helpText="Comma seperated Application Names to hide (E.g - AD,HRMS,Azure)" label="Application Names To Hide" name="appsToHide"/>
+           <Setting dataType="boolean" helpText="Check to disable the Details Action Button in Accounts and Passwords page" label="Disable Details Action Button" name="disableDetailsActionButton" defaultValue="true"/>
+           <Setting dataType="boolean" helpText="Check to disable Entitlement Details in Access page" label="Disable Entitlement Details" name="disableEntLinks" defaultValue="true"/>
+         </List>
+       </value>
+      </entry>
+      <entry key="snippets">
+        <value>
+          <List>
+            <Snippet regexPattern=".*identities.jsf.*" rightRequired="" >
+              <Scripts>
+                <String>ui/js/IdentityDetailsTweaks.js</String>
+              </Scripts>
+            </Snippet>
+          </List>
+        </value>
+      </entry>
+    </Map>
+  </Attributes>
+</Plugin>
+
+
