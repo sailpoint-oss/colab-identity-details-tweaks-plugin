@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<sailpoint>
+    <Capability displayName="Identity Details Tweaks Admin" name="IdentityDetailsTweaksAdmin">
+        <Description>Allow users to view everything, basically override the plugin filters</Description>
+    </Capability>
+</sailpoint>
+
