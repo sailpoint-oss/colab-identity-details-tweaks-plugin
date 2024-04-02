@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE Plugin PUBLIC "sailpoint.dtd" "sailpoint.dtd">
-<Plugin certificationLevel="None" displayName="Identity Details Tweaks" minSystemVersion="8.0" name="IdentityDetailsTweaks" version="1.0">
+<Plugin certificationLevel="None" displayName="Identity Details Tweaks" minSystemVersion="8.0" name="IdentityDetailsTweaks" version="2.0">
   <Attributes>
     <Map>
-      <entry key="minUpgradableVersion" value="0.1" />
+      <entry key="minUpgradableVersion" value="1.0" />
       <entry key="restResources">
        <value>
          <List>
@@ -14,11 +14,66 @@
       <entry key="settings">
        <value>
          <List>
-         <Setting dataType="string" helpText="Comma seperated Application Names to hide (E.g - AD,HRMS,Azure)" label="Application Names To Hide" name="appsToHide"/>
-           <Setting dataType="boolean" helpText="Check to disable the Details Action Button in Accounts and Passwords page" label="Disable Details Action Button" name="disableDetailsActionButton" defaultValue="true"/>
-           <Setting dataType="boolean" helpText="Check to disable Entitlement Details in Access page" label="Disable Entitlement Details" name="disableEntLinks" defaultValue="true"/>
+           <Setting dataType="string" multiValue="true" name="appsToHide"/>
+           <Setting dataType="string" multiValue="true" name="identityAttributesToHide"/>
+           <Setting dataType="boolean" name="disableDetailsActionButton" defaultValue="true"/>
+           <Setting dataType="boolean" name="disableEntLinks" defaultValue="true"/>
          </List>
        </value>
+      </entry>
+      <entry key="settingsForm">
+        <value>
+          <Form name="Identity Details Tweaks Configuration">
+            <Attributes>
+              <Map>
+                <entry key="pageTitle" value="Identity Details Tweaks Configuration"/>
+                <entry key="title" value="Identity Details Tweaks Configuration"/>
+              </Map>
+            </Attributes>
+            <Description>Form for configuring Identity Details Tweaks Plugin</Description>
+            <Section columns="2" name="Configuration">
+              <Attributes>
+                <Map>
+                  <entry key="subtitle" value="Configure below settings to alter the users experience."/>
+                </Map>
+              </Attributes>
+              <Field displayName="Application Names To Hide" helpKey="Select Application Names To Hide From Access, Accounts and Passwords Page" multi="true" name="appsToHide" type="string">
+                <AllowedValuesDefinition>
+                  <Script>
+                    <Source>
+                    <![CDATA[
+                      import sailpoint.object.Application;
+                      
+                      List appNames = new ArrayList();
+                      List apps = context.getObjects(Application.class);
+                      if(apps != null)
+                        for(Application app : apps) appNames.add(app.getName());
+                      return appNames;
+                    ]]>
+                    </Source>
+                  </Script>
+                </AllowedValuesDefinition>
+              </Field>
+              <Field displayName="Identity Attributes To Hide" helpKey="Select Attributes To Hide From Attributes Page" multi="true" name="identityAttributesToHide" type="string">
+                <AllowedValuesDefinition>
+                  <Script>
+                    <Source>
+                    <![CDATA[
+                      import sailpoint.object.UIConfig;
+                      import sailpoint.tools.Util;
+
+                      UIConfig uiConfig = context.getObjectByName(UIConfig.class, "UIConfig");
+                      return Util.csvToList(uiConfig.get("identityViewAttributes"));
+                    ]]>
+                    </Source>
+                  </Script>
+                </AllowedValuesDefinition>
+              </Field>
+              <Field displayName="Disable Details Action Button" helpKey="Check To Disable The Details Action Button In Accounts and Passwords Page" name="disableDetailsActionButton" type="boolean"/>
+              <Field displayName="Disable Entitlement Details" helpKey="Check To Disable Entitlement Details In Access Page" name="disableEntLinks" type="boolean"/>
+            </Section>
+          </Form>
+        </value>
       </entry>
       <entry key="snippets">
         <value>
